@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>らくがきナイトメア（テスト版）</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="手描きの棒人間を撃つ一人称シューティング。開発中のテスト版です（内容は予告なく変わります）。">
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #efece4; color: #2b2a28;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", system-ui, sans-serif; touch-action: none; -webkit-user-select: none; user-select: none; }
+  #unity-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; background: #efece4; outline: none; }
+  #loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: #efece4; }
+  #loading h1 { margin: 0; font-size: clamp(28px, 6vw, 56px); letter-spacing: .08em; }
+  #bar { width: min(70vw, 420px); height: 14px; border: 3px solid #2b2a28; border-radius: 10px; overflow: hidden; }
+  #fill { width: 0%; height: 100%; background: #f08a3c; transition: width .2s; }
+  #note { font-size: 14px; opacity: .7; text-align: center; padding: 0 16px; line-height: 1.7; }
+  #rotate { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; text-align: center; background: #efece4; font-size: 20px; line-height: 1.8; z-index: 10; padding: 16px; }
+  @media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
+  #err { color: #b0302a; font-size: 15px; display: none; padding: 0 16px; text-align: center; }
+</style>
+</head>
+<body>
+<canvas id="unity-canvas" tabindex="-1"></canvas>
+<div id="loading">
+  <h1>らくがきナイトメア</h1>
+  <div id="bar"><div id="fill"></div></div>
+  <div id="note">読み込み中… <span id="pct">0</span>%<br>パソコン：クリックで視点、WASD で移動、左クリックで射撃、右クリックで覗く／スマホは横向きで</div>
+  <div id="err"></div>
+</div>
+<div id="rotate">スマホを横向きにしてください<br>（画面の回転ロックを外してください）</div>
+<script>
+  var buildUrl = "Build";
+  var config = {
+    arguments: [],
+    dataUrl: buildUrl + "/WebGL.data.unityweb",
+    frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb",
+    codeUrl: buildUrl + "/WebGL.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "kyogo",
+    productName: "rakugaki-nightmare",
+    productVersion: "1.0",
+    autoSyncPersistentDataPath: true,   // セーブ（persistentDataPath）を自動で保存する
+    // スマホでは描画の解像度を抑えて軽くする
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, /iPhone|iPad|Android/i.test(navigator.userAgent) ? 1.5 : 2),
+    showBanner: function (msg, type) { if (type === 'error') { var e = document.getElementById('err'); e.style.display = 'block'; e.textContent = msg; } }
+  };
+  var script = document.createElement("script");
+  script.src = buildUrl + "/WebGL.loader.js";
+  script.onload = function () {
+    createUnityInstance(document.querySelector("#unity-canvas"), config, function (p) {
+      document.getElementById('fill').style.width = Math.round(p * 100) + '%';
+      document.getElementById('pct').textContent = Math.round(p * 100);
+    }).then(function () {
+      document.getElementById('loading').style.display = 'none';
+    }).catch(function (message) {
+      var e = document.getElementById('err'); e.style.display = 'block';
+      e.textContent = '起動できませんでした：' + message;
+    });
+  };
+  document.body.appendChild(script);
+</script>
+</body>
+</html>
