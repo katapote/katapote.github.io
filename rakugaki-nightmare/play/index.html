@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>らくがきナイトメア（ブラウザ版）</title>
+<meta name="apple-itunes-app" content="app-id=6823218981">
 <meta name="description" content="手描きの棒人間を撃つ一人称シューティング。ブラウザで遊べる体験版です。">
 <style>
   html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #efece4; color: #2b2a28;
@@ -16,6 +17,7 @@
   #note { font-size: 14px; opacity: .7; text-align: center; padding: 0 16px; line-height: 1.7; }
   #rotate { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; text-align: center; background: #efece4; font-size: 20px; line-height: 1.8; z-index: 10; padding: 16px; }
   @media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
+  #note a { color: #c0461e; font-weight: bold; }
   #err { color: #b0302a; font-size: 15px; display: none; padding: 0 16px; text-align: center; }
 </style>
 </head>
@@ -24,7 +26,7 @@
 <div id="loading">
   <h1>らくがきナイトメア</h1>
   <div id="bar"><div id="fill"></div></div>
-  <div id="note">読み込み中… <span id="pct">0</span>%<br>パソコン：クリックで視点、WASD で移動、左クリックで射撃、右クリックで覗く／スマホは横向きで</div>
+  <div id="note">読み込み中… <span id="pct">0</span>%<br>パソコン：クリックで視点、WASD で移動、左クリックで射撃、右クリックで覗く／スマホは横向きで<br><a href="https://apps.apple.com/jp/app/id6823218981?ct=web_play" target="_blank" rel="noopener">iPhone 版（新しい夢のステージ入り・無料）は App Store へ</a></div>
   <div id="err"></div>
 </div>
 <div id="rotate">スマホを横向きにしてください<br>（画面の回転ロックを外してください）</div>
